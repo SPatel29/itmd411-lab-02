@@ -100,11 +100,12 @@ public class BankRecords extends Client{
 
     @Override
     public void print_data() {
-        System.out.printf("%4s\t\t%6s\t\t%12s\t%16s\t%14s\n", "ID:", "Sex:", "Region:", "Income:", "Mortgage:");
-        System.out.println("===========================================================================");
+        System.out.printf("%4s\t\t%5s\t\t%6s\t\t%12s\t%16s\t%14s\n", "ID:", "Age:", "Sex:", "Region:", "Income:",
+                "Mortgage:");
+        System.out.println("======================================================================================");
         for (int i = 0; i < 25; i += 1){
-            System.out.printf("%4s\t\t%6s\t\t%12s\t%16s\t%10s\n", records[i].get_age(), records[i].get_sex(),
-                    records[i].get_region(), records[i].get_income(), records[i].get_mortgage());
+            System.out.printf("%4s\t\t%4s\t\t%6s\t\t%12s\t%16s\t%10s\n", records[i].get_age(), records[i].get_age(),
+                    records[i].get_sex(), records[i].get_region(), records[i].get_income(), records[i].get_mortgage());
         }
     }
 }
