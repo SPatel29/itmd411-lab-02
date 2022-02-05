@@ -84,7 +84,7 @@ public class BankRecords extends Client{
         catch (FileNotFoundException e){
             System.out.println("File was not found. Please checking path of file.");
         }
-        catch (IOException e){
+        catch (Exception e){
             System.out.println("An error happened regarding your file");
         }
     }

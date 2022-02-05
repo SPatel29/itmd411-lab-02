@@ -5,8 +5,16 @@ public class BankRecordsTest {
         if (play()){
             BankRecords bank = new BankRecords();
             bank.read_data();
-            bank.process_data();
-            bank.print_data();
+            try{
+                bank.process_data();
+                bank.print_data();
+            }
+            catch (NullPointerException e){
+                //needed exception because if incorrect file, path it was still processing data,
+                //thus giving me a NullPointerException. As a result I needed to handle this error when processing
+                //the data.
+                System.out.println("\n\nEmpty File. Check contents or path of file again.");
+            }
         }
         else
             System.out.println("\nGood bye!");
