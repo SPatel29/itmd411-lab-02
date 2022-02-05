@@ -1,7 +1,6 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class BankRecords extends Client{
     private BankRecords[] records = new BankRecords[600];   //holds 600 BankRecords objects
@@ -19,7 +18,7 @@ public class BankRecords extends Client{
     private String mortgage;
     private String prep;
 
-
+    //getters
     public String get_id() {return id;}
     public int get_age() {return age;}
     public String get_sex() {return sex;}
@@ -29,10 +28,11 @@ public class BankRecords extends Client{
     public int get_children() {return children;}
     public String get_Car() {return car;}
     public String save_act() {return save_act;}
-    public String getCurrent_act() {return current_act;}
+    public String get_current_act() {return current_act;}
     public String get_mortgage() {return mortgage;}
     public String get_prep() {return prep;}
 
+    //setters
     public void set_id(String new_id) {id = new_id;}
     public void set_age(int new_age) {age = new_age;}
     public void set_sex(String new_sex) {sex = new_sex;}
@@ -48,15 +48,22 @@ public class BankRecords extends Client{
 
     //below are the abstract methods from Abstract Client class
     //all abstract methods must be overrided.
+
+    /*
+        This method reads the data of the file and adds each data seperated by the commas into the list
+        with the help of the the split method to get us those values and then the add method belonging to the list.
+        Each index of the array is commented with the data value that belongs to it
+     */
     @Override
     public void read_data(){
         try{
-            File file = new File("C:\\Users\\HP\\IdeaProjects\\itmd-lab-02\\bank-Detail(1).csv");
+            File file = new File("bank-Detail(1).csv");
             BufferedReader br = new BufferedReader(new FileReader(file));
             String line;
             String[] temp_arr;
             while ((line = br.readLine()) != null){
-                temp_arr = line.split(","); //temp_arr is an array of strings
+                temp_arr = line.split(","); //split returns an array of those values split by commas.
+                // Setting Temp_arr equal points to that array
 
                 lst.add(temp_arr[0]);   // id
                 lst.add(temp_arr[1]);   // age
@@ -71,11 +78,22 @@ public class BankRecords extends Client{
                 lst.add(temp_arr[10]);  // mortgage
                 lst.add(temp_arr[11]);  // set_prep
             }
-        }catch (Exception e){
-            System.out.println("File unsuccesfully read");
+            br.close();
+        }
+        catch (FileNotFoundException e){
+            System.out.println("File was not found. Please checking path of file.");
+        }
+        catch (IOException e){
+            System.out.println("An error happened regarding your file");
         }
     }
 
+    /*
+        Process_data method gets the data from all list elements and then adds it to array
+        Inside the for loop we make a BankRecords object so it can use the setter methods to initalize our class fields
+        We then store that object inside the array since that object has its fields initalized for us to use.
+        Each lst element needs to be offsetted inside the for loop to get the particular value.
+     */
     @Override
     public void process_data() {
         int count = 0;
@@ -83,7 +101,7 @@ public class BankRecords extends Client{
             BankRecords temp_obj = new BankRecords();
             temp_obj.set_id(lst.get(i));
             temp_obj.set_age(Integer.parseInt(lst.get(i + 1))); //need to make into int because age is int
-            temp_obj.set_sex(lst.get(i + 2));
+            temp_obj.set_sex(lst.get(i + 2));   //adding offsets to get our particular values.
             temp_obj.set_region(lst.get(i + 3));
             temp_obj.set_income(Double.parseDouble(lst.get(i + 4)));
             temp_obj.set_married(lst.get(i + 5));
@@ -93,19 +111,54 @@ public class BankRecords extends Client{
             temp_obj.set_current_act(lst.get(i + 9));
             temp_obj.set_mortgage(lst.get(i + 10));
             temp_obj.set_prep(lst.get(i + 11));
-            records[count] = temp_obj;  //adding the temporary object into the records array which holds BankRecords object
-            count += 1;
+            records[count] = temp_obj;
+            count += 1; //increment count to modify the next element of the records object array
         }
     }
 
+    /*
+        this methods just prints all of our data in a clean table like format. This method uses the printf
+        method to nicely format our characters. The values infront of the s indicate how many characters wide
+        it should be when deciding the right-alignment. We also use the records array since each element in that
+        array is a BankRecords object, as a result we can use its methods.
+     */
     @Override
     public void print_data() {
+        print_headings();
+        for (int i = 0; i < 25; i += 1){    //increment by 25 because we want the first 25 individuals
+            System.out.printf("%4s\t\t%4s\t\t%6s\t\t%12s\t%16s\t%10s\n", records[i].get_id(), records[i].get_age(),
+            records[i].get_sex(), records[i].get_region(), records[i].get_income(),
+            records[i].get_mortgage());
+        }
+        print_data_50();
+    }
+
+    /*
+        This method is the same as the prtin_data, but it prints another 25 participants.
+        Uses the same techinques, but also asks for user input if they would want to read another 25 or just end
+        the program. User input is also handled properly.
+     */
+    public void print_data_50(){
+        System.out.println("\n\n\nWould you like to print 25 more? Y or N\n");
+        Scanner scan = new Scanner(System.in);
+        String input = scan.nextLine();
+        if (input.equalsIgnoreCase("y")){
+            print_headings();
+            for (int i = 25; i < 50; i += 1){    //increment by 25 because we want the first 25 individuals
+                System.out.printf("%4s\t\t%4s\t\t%6s\t\t%12s\t%16s\t%10s\n", records[i].get_id(), records[i].get_age(),
+                        records[i].get_sex(), records[i].get_region(), records[i].get_income(),
+                        records[i].get_mortgage());
+            }
+            System.out.println("\n\n\nGoodbye!");
+        }
+        else if(input.equalsIgnoreCase("n"))
+            System.out.println("\nGoodbye!");
+        else
+            throw new IllegalArgumentException("Please enter Y or N. Try again");
+    }
+    public void print_headings(){
         System.out.printf("%6s\t\t%6s\t\t%6s\t\t%12s\t%16s\t%14s\n", "ID:", "Age:", "Sex:", "Region:", "Income:",
                 "Mortgage:");
         System.out.println("======================================================================================");
-        for (int i = 0; i < 25; i += 1){
-            System.out.printf("%4s\t\t%4s\t\t%6s\t\t%12s\t%16s\t%10s\n", records[i].get_id(), records[i].get_age(),
-                    records[i].get_sex(), records[i].get_region(), records[i].get_income(), records[i].get_mortgage());
-        }
     }
 }
