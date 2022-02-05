@@ -51,7 +51,7 @@ public class BankRecords extends Client{
     @Override
     public void read_data(){
         try{
-            File file = new File("../bank-Detail(1).csv");
+            File file = new File("C:\\Users\\HP\\IdeaProjects\\itmd-lab-02\\bank-Detail(1).csv");
             BufferedReader br = new BufferedReader(new FileReader(file));
             String line;
             String[] temp_arr;
@@ -70,7 +70,6 @@ public class BankRecords extends Client{
                 lst.add(temp_arr[9]);  // current_act
                 lst.add(temp_arr[10]);  // mortgage
                 lst.add(temp_arr[11]);  // set_prep
-
             }
         }catch (Exception e){
             System.out.println("File unsuccesfully read");
@@ -80,13 +79,13 @@ public class BankRecords extends Client{
     @Override
     public void process_data() {
         int count = 0;
-        BankRecords temp_obj = new BankRecords();
         for (int i =0; i < lst.size(); i+=12){      //adding by 12 each increment b/c that is offset till next id
+            BankRecords temp_obj = new BankRecords();
             temp_obj.set_id(lst.get(i));
             temp_obj.set_age(Integer.parseInt(lst.get(i + 1))); //need to make into int because age is int
             temp_obj.set_sex(lst.get(i + 2));
             temp_obj.set_region(lst.get(i + 3));
-            temp_obj.set_income(Integer.parseInt(lst.get(i + 4)));
+            temp_obj.set_income(Double.parseDouble(lst.get(i + 4)));
             temp_obj.set_married(lst.get(i + 5));
             temp_obj.set_children(Integer.parseInt(lst.get(i + 6)));
             temp_obj.set_car(lst.get(i + 7));
@@ -101,7 +100,12 @@ public class BankRecords extends Client{
 
     @Override
     public void print_data() {
-
+        for (int i = 0; i < 25; i += 1){    //print first 25 people and their data
+            System.out.println("ID:\t\tAGE:\t\tSEX:\t\tREGION:\t\tINCOME:\t\tMORTGAGE:");
+            System.out.println(records[i].get_id() +"\t\t" + records[i].get_age() + "\t\t" +
+                    records[i].get_sex() + "\t\t" + records[i].get_region() +
+                    records[i].get_income() + "\t\t" + records[i].get_mortgage());
+        }
     }
 
 
