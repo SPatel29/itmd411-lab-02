@@ -63,7 +63,8 @@ public class BankRecords extends Client{
             String[] temp_arr;
             while ((line = br.readLine()) != null){
                 temp_arr = line.split(","); //split returns an array of those values split by commas.
-                // Setting Temp_arr equal points to that array
+                // Setting temp_arr equal to the array created by the split method makes temp_arr POINT to that array
+                // Shallow copy, not deep copy of array
 
                 lst.add(temp_arr[0]);   // id
                 lst.add(temp_arr[1]);   // age
@@ -156,6 +157,7 @@ public class BankRecords extends Client{
         else
             throw new IllegalArgumentException("Please enter Y or N. Try again");
     }
+
     public void print_headings(){
         System.out.printf("%6s\t\t%6s\t\t%6s\t\t%12s\t%16s\t%14s\n", "ID:", "Age:", "Sex:", "Region:", "Income:",
                 "Mortgage:");
