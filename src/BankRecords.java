@@ -102,11 +102,17 @@ public class BankRecords extends Client{
     public void print_data() {
         System.out.println("ID:\t\t |\tAGE:|\t\tSEX:\t| \t\tREGION:\t\t\tINCOME:\t\t\tMORTGAGE:");
         System.out.println("=====================================================================================");
+        for (int i = 0; i < 25; i += 1){
+            System.out.printf("%4s\t\t%4s\t\t%10s\t%16s\t%10s\n", records[i].get_age(), records[i].get_sex(),
+                    records[i].get_region(), records[i].get_income(), records[i].get_mortgage());
+        }
+        /*
         for (int i = 0; i < 25; i += 1){    //print first 25 people and their data
             System.out.println(records[i].get_id() +"\t | \t" + records[i].get_age() + "\t|\t\t" +
                     records[i].get_sex() + "\t|\t\t" + records[i].get_region() + "\t\t\t" +
                     records[i].get_income() + "\t\t\t" + records[i].get_mortgage());
         }
+        */
     }
 
 
